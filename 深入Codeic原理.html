@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>深入Codeic原理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>深入Codeic原理</h1>
+<p>本节我们将深入讨论Codeic的原理。</p>
+<h2>Scratch扩展</h2>
+<p>Scratch扩展（Scratch Extensions）使得Scratch有能力与其他程序（如Codeic、LEGO WeDo或者PicoBoard）进行交互。这些程序通过一些列的命令和返回代码块与Scratch进行交互，从而让Scratch可以完成一些更底层的任务，这些代码块都被包含在<strong>更多模块</strong>里。</p>
+<p>Codeic正是通过Scratch扩展功能与Scratch实现交互的。</p>
+<h2>Codeic的扩展文件</h2>
+<p>在Codeic的扩展文件即Codeic.json中有如下代码：</p>
+<pre><code>{
+    &quot;extensionName&quot;: &quot;Codeic&quot;,
+    &quot;extensionPort&quot;: 8384,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;useHTTP&quot;: true,
+    &quot;blockSpecs&quot;:[
+        [&quot;w&quot;,&quot;打开程序 %s&quot;, &quot;CDPL:LaunchProgram&quot;,&quot;Console.exe&quot;]
+    ]
+}
+</code></pre>
+
+<p>可以看到，Codeic的扩展所用到的端口是8384，地址是localhost，包含一个代码块<strong>打开程序</strong></p>
+<h2>侦听端口交互</h2>
+<p>Codeic在成功运行后就开始侦听一个端口：8384，Scratch正是通过这个端口与Codeic实现交互。当Scratch运行到<strong>打开程序</strong>代码块的时候，Scratch向Codeic发送一条命令&quot;CDPL:LaunchProgram&quot;，默认参数为&quot;Console.exe&quot;，这在Codeic的扩展文件中可以找到。</p>
+<p>Codeic接收到这个命令和参数后，便开始在Codeic根目录的Programs文件夹中寻找名为Console.exe的程序并打开它。像Console.exe这样的，通过向Codeic发送&quot;CDPL:LaunchProgram&quot;运行的程序称为<strong>扩展程序</strong>。</p>
+<h2>Codeic的扩展库</h2>
+<p>Codeic包含扩展库，这些扩展库都存放在Codeic根目录下的Libs文件夹中。其中最重要的扩展库是CDPL(CodeicProgramLauncher)，是Codeic的扩展程序启动器，用来启动扩展程序。</p>
+<p>调用扩展库命令的格式为:</p>
+<pre><code>[扩展库名:]命令名
+</code></pre>
+
+<p>如：CDPL:LaunchProgram</p>
+<p>其中，扩展库名是可选的，如果扩展库名为空，那么会调用默认的基础扩展库&quot;Essential&quot;，这个扩展库包含在Codeic的核心程序中。</p>
+<h2>扩展库调用扩展程序</h2>
+<p>Codeic提供的可调用扩展程序的扩展库为CDPL库，当然用户也可以自定义自己的扩展库调用其他程序。</p>
+<p>Codeic接收到&quot;CDPL:LaunchProgram&quot;命令时，会在已加载的扩展库中寻找名为&quot;CDPL&quot;的扩展库，然后给这个扩展库&quot;LaunchProgram&quot;命令及参数&quot;Console.exe&quot;。CDPL接收到这个命令后，会在扩展程序找到名为Console.exe的扩展程序，然后打开它。</p>
+<h2>Scratch与扩展程序交互</h2>
+<p>要调用扩展程序则需要添加相应的扩展程序的扩展文件，例如Console.exe的扩展文件Console.json。</p>
+<pre><code>{
+    &quot;extensionName&quot;: &quot;Console&quot;,
+    &quot;extensionPort&quot;: 8000,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;useHTTP&quot;: true,
+    &quot;blockSpecs&quot;:[
+        [&quot; &quot;,&quot;输出 %s&quot;, &quot;writeLine&quot;,&quot;信息&quot;],
+        [&quot; &quot;,&quot;退出&quot;,&quot;exit&quot;]
+    ]
+}
+</code></pre>
+
+<p>这是Console.json的内容，其中可以看到与Codeic的扩展文件不同的是，Console的侦听端口是8000。</p>
+<p>CDPL启动Console.exe时，Console.exe便开始侦听8000端口，Scratch里的Console扩展的指示灯则会由红变绿，Scratch便会通过8000端口与Console.exe进行交互，可以输出信息，也可以让Console.exe退出。</p>
+<h2>扩展库与扩展程序的不同</h2>
+<p>扩展库的运行依附在Codeic核心上，侦听的端口与Codeic核心一样，默认是8384，并且Codeic调用扩展库使用的是单线程，如果一个扩展库发生阻塞，那么核心也会受到阻塞。</p>
+<p>扩展程序由CDPL启动，侦听的端口可自定义，与Codeic核心是异步进行。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
