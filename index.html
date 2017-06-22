@@ -6,31 +6,75 @@
     <meta name="description" content="Codeic">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
-    <link href="./assets/css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="./assets/style.css">
+    <link href="https://ambicour.github.io/Codeic/assets/css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://ambicour.github.io/Codeic/assets/style.css">
   </head>
   <body>
-    <section class="page-header">
+    <!--section class="page-header">
       <h1 class="project-name">Codeic</h1>
       <h2 class="project-tagline">Aaron Robert</h2>
       
         <a href="" class="btn">下载Codeic</a>
       
       
-    </section>
+    </section-->
 
     <section class="main-content">
-      <h2 id="welcome-to-github-pages">Codeic是什么？</h2>
+<body>
+<h1>深入Codeic原理</h1>
+<p>本节我们将深入讨论Codeic的原理。</p>
+<h2>Scratch扩展</h2>
+<p>Scratch扩展（Scratch Extensions）使得Scratch有能力与其他程序（如Codeic、LEGO WeDo或者PicoBoard）进行交互。这些程序通过一些列的命令和返回代码块与Scratch进行交互，从而让Scratch可以完成一些更底层的任务，这些代码块都被包含在<strong>更多模块</strong>里。</p>
+<p>Codeic正是通过Scratch扩展功能与Scratch实现交互的。</p>
+<h2>Codeic的扩展文件</h2>
+<p>在Codeic的扩展文件即Codeic.json中有如下代码：</p>
+<pre><code>{
+    &quot;extensionName&quot;: &quot;Codeic&quot;,
+    &quot;extensionPort&quot;: 8384,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;useHTTP&quot;: true,
+    &quot;blockSpecs&quot;:[
+        [&quot;w&quot;,&quot;打开程序 %s&quot;, &quot;CDPL:LaunchProgram&quot;,&quot;Console.exe&quot;]
+    ]
+}
+</code></pre>
 
-        <p>Codeic是一款基于Scratch或其他程序的拓展程序，为Scratch提供了多种接口，并且Codeic可支持扩展，使Scratch可以通过Codeic调用更多接口、程序，使Scratch的应用范围更加广泛。</p>
+<p>可以看到，Codeic的扩展所用到的端口是8384，地址是localhost，包含一个代码块<strong>打开程序</strong></p>
+<h2>侦听端口交互</h2>
+<p>Codeic在成功运行后就开始侦听一个端口：8384，Scratch正是通过这个端口与Codeic实现交互。当Scratch运行到<strong>打开程序</strong>代码块的时候，Scratch向Codeic发送一条命令&quot;CDPL:LaunchProgram&quot;，默认参数为&quot;Console.exe&quot;，这在Codeic的扩展文件中可以找到。</p>
+<p>Codeic接收到这个命令和参数后，便开始在Codeic根目录的Programs文件夹中寻找名为Console.exe的程序并打开它。像Console.exe这样的，通过向Codeic发送&quot;CDPL:LaunchProgram&quot;运行的程序称为<strong>扩展程序</strong>。</p>
+<h2>Codeic的扩展库</h2>
+<p>Codeic包含扩展库，这些扩展库都存放在Codeic根目录下的Libs文件夹中。其中最重要的扩展库是CDPL(CodeicProgramLauncher)，是Codeic的扩展程序启动器，用来启动扩展程序。</p>
+<p>调用扩展库命令的格式为:</p>
+<pre><code>[扩展库名:]命令名
+</code></pre>
 
-      <h2 id="welcome-to-github-pages">Codeic可以干什么？</h2>
+<p>如：CDPL:LaunchProgram</p>
+<p>其中，扩展库名是可选的，如果扩展库名为空，那么会调用默认的基础扩展库&quot;Essential&quot;，这个扩展库包含在Codeic的核心程序中。</p>
+<h2>扩展库调用扩展程序</h2>
+<p>Codeic提供的可调用扩展程序的扩展库为CDPL库，当然用户也可以自定义自己的扩展库调用其他程序。</p>
+<p>Codeic接收到&quot;CDPL:LaunchProgram&quot;命令时，会在已加载的扩展库中寻找名为&quot;CDPL&quot;的扩展库，然后给这个扩展库&quot;LaunchProgram&quot;命令及参数&quot;Console.exe&quot;。CDPL接收到这个命令后，会在扩展程序找到名为Console.exe的扩展程序，然后打开它。</p>
+<h2>Scratch与扩展程序交互</h2>
+<p>要调用扩展程序则需要添加相应的扩展程序的扩展文件，例如Console.exe的扩展文件Console.json。</p>
+<pre><code>{
+    &quot;extensionName&quot;: &quot;Console&quot;,
+    &quot;extensionPort&quot;: 8000,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;useHTTP&quot;: true,
+    &quot;blockSpecs&quot;:[
+        [&quot; &quot;,&quot;输出 %s&quot;, &quot;writeLine&quot;,&quot;信息&quot;],
+        [&quot; &quot;,&quot;退出&quot;,&quot;exit&quot;]
+    ]
+}
+</code></pre>
 
-        <p>Codeic可以实现原版Scratch无法实现的功能，比如对系统磁盘进行操作、让电脑根据文本发出语音、获取网页的内容，同时Codeic还提供了许多工具包，使Scratch的功能更加完善。</p>
+<p>这是Console.json的内容，其中可以看到与Codeic的扩展文件不同的是，Console的侦听端口是8000。</p>
+<p>CDPL启动Console.exe时，Console.exe便开始侦听8000端口，Scratch里的Console扩展的指示灯则会由红变绿，Scratch便会通过8000端口与Console.exe进行交互，可以输出信息，也可以让Console.exe退出。</p>
+<h2>扩展库与扩展程序的不同</h2>
+<p>扩展库的运行依附在Codeic核心上，侦听的端口与Codeic核心一样，默认是8384，并且Codeic调用扩展库使用的是单线程，如果一个扩展库发生阻塞，那么核心也会受到阻塞。</p>
+<p>扩展程序由CDPL启动，侦听的端口可自定义，与Codeic核心是异步进行。</p>
 
-       <h2 id="welcome-to-github-pages">Codeic怎么使用？</h2>
-
-        <p>请点击<a href="./目录.html">教程</a>。</p>
+</body>
 
       <footer class="site-footer">
         
