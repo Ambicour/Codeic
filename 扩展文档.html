@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>目录</title>
+<title>扩展文档</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -291,18 +291,79 @@ img {
 </style>
 </head>
 <body>
-<h1>Codeic教程目录</h1>
+<h1>扩展文档</h1>
+<p>这里提供了Codeic的扩展的接口，可以根据文档使用扩展，或者自定义扩展文件。</p>
+<hr />
 <ul>
-<li><a href="http://ambicour.github.io/Codeic/介绍.html">介绍</a></li>
-<li><a href="http://ambicour.github.io/Codeic/使用Codeic.html">使用Codeic</a></li>
-<li><a href="http://ambicour.github.io/Codeic/扩展文档.html">扩展文档</a></li>
 <li>
-开发者专区
+Lib
 <ul>
-<li><a href="http://ambicour.github.io/Codeic/深入Codeic原理.html">深入Codeic原理</a></li>
+<li><a href="#CDPL">CDPL</a></li>
+<li>
+<a href="#Util">Util</a>
+<ul>
+<li><a href="#MB">MB(MessageBox)</a></li>
+<li><a href="#Speak">Speak</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li>
+Program
+<ul>
+<li><a href="#Console">Console</a></li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><a name="CDPL"></a></p>
+<h2>CDPL</h2>
+<p>CDPL(Codeic Program Launcher)是Codeic的扩展程序启动器，提供了一些处理扩展程序的接口</p>
+<p><strong>代码块描述:</strong></p>
+<pre><code>[&quot;w&quot;,&quot;打开程序 %s&quot;, &quot;CDPL:LaunchProgram&quot;,&quot;Console.exe&quot;]
+</code></pre>
+
+<p><a name="Util"></a></p>
+<h2>Util</h2>
+<p>工具库，提供了一些工具接口，其中包含了多个小类。</p>
+<p><a name="MB"></a></p>
+<h3>MB</h3>
+<p>MB(MessageBox)是提示窗口，提供了创建提示窗口的接口</p>
+<p><strong>代码块描述:</strong></p>
+<pre><code>[&quot;w&quot;,&quot;提示 %s 然后等待&quot;, &quot;Util:MB_WShow&quot;]
+[&quot;w&quot;,&quot;提示标题为 %s 信息为 %s 的窗口，然后等待&quot;, &quot;Util:MB_WShowWithTitle&quot;]
+[&quot;w&quot;,&quot;提示标题为 %s 信息为 %s 的确认窗口，然后等待&quot;, &quot;Util:MB_WShowConfirmMessage&quot;]
+[&quot;w&quot;,&quot;提示标题为 %s 信息为 %s 图标为 %m.icon 的确认窗口，然后等待&quot;, &quot;Util:MB_WShowConfirmMessageWithIcon&quot;]
+[&quot;w&quot;,&quot;提示标题为 %s 信息为 %s 图标为 %m.icon 默认按钮为 %m.defaultButton 的确认窗口，然后等待&quot;, &quot;Util:MB_WShowConfirmMessageWithIconAndDefaultButton&quot;]
+[&quot; &quot;,&quot;提示 %s &quot;, &quot;Util:MB_Show&quot;]
+[&quot; &quot;,&quot;提示标题为 %s 信息为 %s 的窗口&quot;, &quot;Util:MB_ShowWithTitle&quot;]
+[&quot; &quot;,&quot;提示标题为 %s 信息为 %s 的确认窗口&quot;, &quot;Util:MB_ShowConfirmMessage&quot;]
+[&quot; &quot;,&quot;提示标题为 %s 信息为 %s 图标为 %m.icon 的确认窗口&quot;, &quot;Util:MB_ShowConfirmMessageWithIcon&quot;]
+[&quot; &quot;,&quot;提示标题为 %s 信息为 %s 图标为 %m.icon 默认按钮为 %m.defaultButton 的确认窗口&quot;, &quot;Util:MB_ShowConfirmMessageWithIconAndDefaultButton&quot;]
+[&quot;r&quot;,&quot;结果&quot;,&quot;MB_result&quot;]
+</code></pre>
+
+<p><strong>菜单描述:</strong></p>
+<pre><code>&quot;icon&quot;:[&quot;星号&quot;,&quot;错误&quot;,&quot;问号&quot;,&quot;警告&quot;,&quot;停止&quot;]
+&quot;defaultButton&quot;:[&quot;确认&quot;,&quot;取消&quot;]
+</code></pre>
+
+<p><a name="Speak"></a></p>
+<h3>Speak</h3>
+<p>可以让电脑根据文本发出一段语音。</p>
+<p><strong>代码块描述:</strong></p>
+<pre><code>[&quot; &quot;,&quot;说 %s &quot;, &quot;Speak:speak&quot;],
+[&quot;w&quot;,&quot;说 %s 然后等待&quot;, &quot;Speak:Wspeak&quot;]
+</code></pre>
+
+<p><a name="Console"></a></p>
+<h2>Console</h2>
+<p>控制台扩展程序，可输出信息</p>
+<p><strong>代码块描述:</strong></p>
+<pre><code>[&quot; &quot;,&quot;输出 %s&quot;, &quot;writeLine&quot;,&quot;信息&quot;],
+[&quot; &quot;,&quot;退出&quot;,&quot;exit&quot;]
+</code></pre>
+
 
 </body>
 </html>
