@@ -1,0 +1,10 @@
+{
+    "extensionName": "Console",
+    "extensionPort": 8000,
+    "host": "localhost",
+    "useHTTP": true,
+    "blockSpecs":[
+        [" ","输出 %s", "writeLine","信息"],
+        [" ","退出","exit"]
+    ]
+}

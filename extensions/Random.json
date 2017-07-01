@@ -1,0 +1,12 @@
+{
+    "extensionName": "随机数",
+    "extensionPort": 8384,
+    "host": "localhost",
+    "useHTTP": true,
+    "blockSpecs":[
+        [" ","产生从0到100的随机整数","Util:Random_Random"],
+        [" ","产生从 %n 到 %n 的随机整数","Util:Random_RandomRange"],
+        [" ","产生从 %n 到 %n 种子为 %n 的随机整数","Util:Random_RandomRangeWithSeed"],
+        ["r","结果","RandomResult"]
+    ]
+}

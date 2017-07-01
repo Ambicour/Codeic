@@ -1,0 +1,23 @@
+{
+    "extensionName": "Util",
+    "extensionPort": 8384,
+    "host": "localhost",
+    "useHTTP": true,
+    "blockSpecs":[
+        ["w","提示 %s 然后等待", "Util:MB_WShow"],
+        ["w","提示标题为 %s 信息为 %s 的窗口，然后等待", "Util:MB_WShowWithTitle"],
+        ["w","提示标题为 %s 信息为 %s 的确认窗口，然后等待", "Util:MB_WShowConfirmMessage"],
+        ["w","提示标题为 %s 信息为 %s 图标为 %m.icon 的确认窗口，然后等待", "Util:MB_WShowConfirmMessageWithIcon"],
+        ["w","提示标题为 %s 信息为 %s 图标为 %m.icon 默认按钮为 %m.defaultButton 的确认窗口，然后等待", "Util:MB_WShowConfirmMessageWithIconAndDefaultButton"],
+        [" ","提示 %s ", "Util:MB_Show"],
+        [" ","提示标题为 %s 信息为 %s 的窗口", "Util:MB_ShowWithTitle"],
+        [" ","提示标题为 %s 信息为 %s 的确认窗口", "Util:MB_ShowConfirmMessage"],
+        [" ","提示标题为 %s 信息为 %s 图标为 %m.icon 的确认窗口", "Util:MB_ShowConfirmMessageWithIcon"],
+        [" ","提示标题为 %s 信息为 %s 图标为 %m.icon 默认按钮为 %m.defaultButton 的确认窗口", "Util:MB_ShowConfirmMessageWithIconAndDefaultButton"],
+        ["r","结果","MB_result"]
+    ],
+    "menus":{
+        "icon":["星号","错误","问号","警告","停止"],
+        "defaultButton":["确认","取消"]
+    }
+}

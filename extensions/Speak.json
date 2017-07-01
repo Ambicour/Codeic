@@ -1,0 +1,10 @@
+{
+    "extensionName": "Speak",
+    "extensionPort": 8384,
+    "host": "localhost",
+    "useHTTP": true,
+    "blockSpecs":[
+        [" ","说 %s ", "Speak:speak"],
+        ["w","说 %s 然后等待", "Speak:Wspeak"]
+    ]
+}
