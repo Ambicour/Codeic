@@ -4,7 +4,7 @@
 ##1.安装Codeic
 得到Codeic后，你可以把它放在任何你想要的位置。
 
-![](http://ambicour.github.io/Codeic/pic/1_1.png)
+![](./pic/1_1.png)
 
 安装好Codeic后在根目录里应该像上图一样。
 
